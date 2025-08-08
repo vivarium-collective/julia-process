@@ -13,4 +13,6 @@ COPY . /process
 
 EXPOSE 11111
 
+LABEL config_schema='{"rate":"float"}'
+
 CMD ["julia", "--project=/process", "process.jl"]
