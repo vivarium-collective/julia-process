@@ -51,7 +51,8 @@ function run_command(command::JSON3.Object)
     elseif command.command == "outputs"
         result = outputs
     elseif command.command == "update"
-        mass_delta = config.rate * command.arguments.state.mass * command.arguments.interval
+        arguments = command.arguments
+        mass_delta = config.rate * arguments.state.mass * arguments.interval
         result = Dict(
             "mass_delta" => mass_delta)
     end
@@ -68,8 +69,6 @@ while true
     println("connected to $conn\n")
 
     @async begin
-        total = 0
-
         try
             while true
                 line = readline(conn)
@@ -80,19 +79,10 @@ while true
                 println("received command: $command")
                 println("computed update: $update")
 
-                # result = try
-                #     Meta.parse(line) |> eval
-                # catch e
-                #     "Error: $e"
-                # end
-                # total += result
-                # write(conn, "$total\n")
-
                 write(conn, "$result\n")
             end
         catch err
-            # Handle connection errors
-            println("Connection ended with error: $err")
+            println("connection ended with error: $err")
         end
     end
 end
