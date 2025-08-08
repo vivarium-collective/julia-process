@@ -2,6 +2,41 @@ using Sockets
 using JSON3
 
 
+const HOST = ip"0.0.0.0"
+const PORT = 11111
+const CONFIG_PATH = "/config/config.json"
+const CONFIG_DEFAULT = "config/default_config.json"
+
+
+function parse_command(command::String)
+    JSON3.read(command)
+end
+
+function write_result(result::Dict)
+    JSON3.write(result)
+end
+
+function read_config(path::String)
+    config_data = "{}"
+    open(path, "r") do config_file
+        config_data = read(config_file, String)
+    end
+    parse_command(config_data)
+end
+
+
+config = Dict()
+if isfile(CONFIG_PATH)
+    config = read_config(
+        CONFIG_PATH)
+else
+    config = read_config(
+        CONFIG_DEFAULT)
+end
+    
+
+println("read config: $config\n")
+
 inputs = Dict(
     "mass" => "float")
 
@@ -25,22 +60,10 @@ function run_command(command::JSON3.Object)
 end
 
 
-function parse_command(command::String)
-    JSON3.read(command)
-end
-
-function write_result(result::Dict)
-    JSON3.write(result)
-end
-
-const HOST = ip"0.0.0.0"
-const PORT = 11111
-
 server = listen(HOST, PORT)
 println("process is listening on port $PORT")
 
 while true
-    # Accept incoming connections
     conn = accept(server)
     println("connected to $conn\n")
 
