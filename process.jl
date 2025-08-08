@@ -26,6 +26,7 @@ end
 
 
 config = Dict()
+
 if isfile(CONFIG_PATH)
     config = read_config(
         CONFIG_PATH)
@@ -34,8 +35,8 @@ else
         CONFIG_DEFAULT)
 end
     
-
 println("read config: $config\n")
+
 
 inputs = Dict(
     "mass" => "float")
@@ -43,18 +44,22 @@ inputs = Dict(
 outputs = Dict(
     "mass_delta" => "float")
 
+function update(state, interval)
+    mass_delta = config.rate * state.mass * interval
+    Dict("mass_delta" => mass_delta)
+end
+
 
 function run_command(command::JSON3.Object)
     result = Dict()
+
     if command.command == "inputs"
         result = inputs
     elseif command.command == "outputs"
         result = outputs
     elseif command.command == "update"
         arguments = command.arguments
-        mass_delta = config.rate * arguments.state.mass * arguments.interval
-        result = Dict(
-            "mass_delta" => mass_delta)
+        result = update(arguments.state, arguments.interval)
     end
 
     result
