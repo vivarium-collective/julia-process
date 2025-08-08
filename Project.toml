@@ -1,0 +1,12 @@
+name = "julia_process"
+uuid = "57c9dc68-dae4-4e4a-aa91-54e66c92cc34"
+authors = ["Ryan Spangler <ryan.spangler@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
+Sockets = "6462fe0b-24de-5631-8697-dd941f90decc"
+
+[compat]
+JSON3 = "1.14.3"
+Sockets = "1.11.0"
