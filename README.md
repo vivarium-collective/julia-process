@@ -23,6 +23,14 @@ running process. Available commands are:
 * outputs(): get the outputs schema for this process
 * update(state, interval): receives state in the form of the inputs schema, and produces a result in the form of the outputs schema. Runs for `interval` amount of time.
 
+An example of computing an update using netcat:
+
+```
+> netcat -v localhost 11111
+{"command":"update","arguments":{"state":{"mass":0.234},"interval":0.777}}
+--> {"mass_delta":0.000545454}
+```
+
 ## process design
 
 Right now the general process interface is abstracted into the file `src/process_interface.jl` and covers the basic Process type, reading and writing messages to the socket as "commands", and running the server that creates a socket and listens to it. This should be the same for any process you would want to write.
