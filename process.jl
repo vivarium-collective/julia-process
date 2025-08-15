@@ -12,7 +12,6 @@ struct GrowProcess <: Process
 end
 
 function inputs(process::GrowProcess)::Dict
-    println("GrowProcess inputs")
     Dict("mass" => "float")
 end
 
