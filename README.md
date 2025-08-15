@@ -4,11 +4,11 @@ A container template for making a julia program into a Vivarium process
 
 ## build
 
-> docker build -t julia-process .
+    > docker build -t julia-process .
 
 ## run
 
-> docker run -p 11111:11111 -v ./test:/config julia-process
+    > docker run -p 11111:11111 -v ./test:/config julia-process
 
 If you want to use a different config than the included test config you can map
 a different host volume into the container - it will read anything inside with
